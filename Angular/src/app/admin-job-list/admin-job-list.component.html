@@ -1,0 +1,180 @@
+<div *ngIf="isLoading" class="loading-container">
+    <app-loading-spinner class="loading-spinner"></app-loading-spinner>
+    <p>Loading student data...</p>
+</div>
+
+<div class="main-content" *ngIf="!isLoading">
+    <app-navbar></app-navbar>
+
+    <div class="search-container">
+        <input type="text" [(ngModel)]="searchTerm"  (input)="searchJobs()"  placeholder="Search for jobs..." />
+        <button (click)="searchJobs()">Search</button>
+    </div>
+    <!-- Button to open the modal -->
+<button class="floating-btn" (click)="openStudentPopup()">View Students</button>
+
+<!-- Popup for displaying students -->
+
+
+    <div class="card-container">
+        <div class="card" *ngFor="let job of jobApplications">
+            <div class="card-header">
+                <h3>{{ job.company_name }}</h3>
+                <div class="card-menu">
+                    <button (click)="openMenu(job.id)">...</button>
+                    <div class="menu-options" *ngIf="menuJobId === job.id">
+                        <button (click)="editJob(job)">Edit</button>
+                        <button (click)="deleteJob(job.id)">Delete</button>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <p><strong>Type:</strong> {{ job.type }}</p>
+                <p><strong>Location:</strong> {{ job.location }}</p>
+                <p><strong>Salary:</strong> {{ job.package_lpa }} LPA</p>
+                <p><strong>Role:</strong> {{ job.role }}</p>
+                <p><strong>Status:</strong> {{ job.status }}</p>
+                <button (click)="viewDetails(job.id)">View Applicants</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Popup modal for displaying applicants -->
+    <div class="modal" *ngIf="isModalOpen">
+        <div class="modal-content">
+            <span class="close" (click)="closeModal()">&times;</span>
+            <h3><strong>Applicants </strong> </h3>
+            <ul>
+                <li *ngFor="let applicant of selectedApplicants">
+                  <div class="applicant-info">
+                    <strong>Name:</strong> {{ applicant.studentName }}<br>
+                    <strong>Email:</strong> {{ applicant.studentEmail }}<br>
+                    <strong>Status:</strong>
+                    <span [ngClass]="getStatusClass(applicant.status)">
+                      {{ applicant.status }}
+                    </span><br>
+                    <strong>Stage:</strong>
+                    <div class="stage-container">
+                      <span *ngFor="let stage of stageList"
+                            [ngClass]="getStageClass(applicant, stage, applicant.passNext)"
+                            (click)="updateStage(applicant, stage)"
+                            [class.disabled]="applicant.status !== 'ACCEPTED' || applicant.passNext === 'FALSE'"
+                            [style.cursor]="applicant.status !== 'ACCEPTED' || applicant.passNext === 'FALSE' ? 'not-allowed' : 'pointer'">
+                        {{ stage }}
+                      </span>
+                      <button class="not-clear-btn" (click)="passnext(applicant, 'FALSE')">Not Clear</button>
+
+                    </div>
+                  </div>
+                  <div class="applicant-buttons">
+                    <button 
+        class="accept-btn" 
+        (click)="updateStatus(applicant, 'ACCEPTED')" 
+        [disabled]="applicant.status !== 'PENDING'" 
+        [style.cursor]="applicant.status !== 'PENDING' ? 'not-allowed' : 'pointer'">
+        Accept
+    </button>
+    <button 
+        class="reject-btn" 
+        (click)="updateStatus(applicant, 'REJECTED')" 
+        [disabled]="applicant.status !== 'PENDING'" 
+        [style.cursor]="applicant.status !== 'PENDING' ? 'not-allowed' : 'pointer'">
+        Reject
+    </button>
+                    <button class="details-btn" (click)="viewApplicantDetails(applicant.studentEmail)">Applicant Details</button>
+                </div>
+                </li>
+              </ul>              
+        </div>
+    </div>
+
+    <!-- Popup modal for displaying applicant details -->
+    <div class="applicant-detail-modal" *ngIf="isApplicantDetailModalOpen">
+        <div class="applicant-detail-content">
+            <span class="applicant-detail-close" (click)="closeApplicantDetailModal()">&times;</span>
+            <h3>Applicant Details</h3>
+            <div *ngIf="selectedApplicantDetails">
+                <img [src]="imageUrl" alt="Profile Image" class="profile-image" (click)="openImagePopup()" />
+                <p><strong>Name:</strong> {{ selectedApplicantDetails.firstName }} {{ selectedApplicantDetails.lastName
+                    }}</p>
+                <p><strong>Email:</strong> {{ selectedApplicantDetails.email }}</p>
+                <p><strong>Gender:</strong> {{ selectedApplicantDetails.gender }}</p>
+                <p><strong>Date of Birth:</strong> {{ selectedApplicantDetails.dob }}</p>
+                <p><strong>Phone Number:</strong> {{ selectedApplicantDetails.phoneNumber }}</p>
+                <p><strong>10th Mark:</strong> {{ selectedApplicantDetails.mark10th }}</p>
+                <p><strong>12th Mark:</strong> {{ selectedApplicantDetails.mark12th }}</p>
+                <p><strong>UG Mark:</strong> {{ selectedApplicantDetails.ugMark }}</p>
+                <p><strong>Backlog:</strong> {{ selectedApplicantDetails.backlog }}</p>
+                <p><strong>Active Backlog:</strong> {{ selectedApplicantDetails.activeBacklog }}</p>
+                <p><strong>Interested Course:</strong> {{ selectedApplicantDetails.interestedCourse }}</p>
+                <button (click)="viewPdf(selectedApplicantDetails.email)">View Resume</button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Edit Job Modal -->
+    <div class="modal" *ngIf="isEditModalOpen">
+        <div class="edit-job-modal-content">
+            <span class="edit-job-close" (click)="closeEditModal()">&times;</span>
+            <h3>Edit Job Details</h3>
+            <form (ngSubmit)="saveJob()">
+                <label>Company Name:
+                    <input type="text" [(ngModel)]="currentJob.company_name" name="company_name" required />
+                </label>
+                <label>Type:
+                    <input type="text" [(ngModel)]="currentJob.type" name="type" required />
+                </label>
+                <label>Role:
+                    <input type="text" [(ngModel)]="currentJob.role" name="role" required />
+                </label>
+                <label>Location:
+                    <input type="text" [(ngModel)]="currentJob.location" name="location" required />
+                </label>
+                <label>Salary:
+                    <input type="text" [(ngModel)]="currentJob.package_lpa" name="package_lpa" required />
+                </label>
+                <label>Description:
+                    <textarea [(ngModel)]="currentJob.discreption" name="description"></textarea>
+                </label>
+                <label>Status:
+                    <select [(ngModel)]="currentJob.status" name="status" required>
+                        <option value="Open">Open</option>
+                        <option value="Closed">Closed</option>
+                        <option value="On Hold">On Hold</option>
+                    </select>
+                </label>
+                <label>No. of Rounds:
+                    <input type="number" [(ngModel)]="currentJob.no_rounds" name="no_rounds" />
+                </label>
+                <label>Apply Before:
+                    <input type="date" [(ngModel)]="currentJob.apply_before" name="apply_before" />
+                </label>
+                <button type="submit">Save</button>
+            </form>
+        </div>
+    </div>
+    <div class="pdf-viewer-modal" *ngIf="isPopupOpen">
+        <div class="pdf-viewer-content">
+            <span class="pdf-viewer-close" (click)="closePopup()">&times;</span>
+            <iframe [src]="pdfUrl" width="100%" height="100%" frameborder="0"></iframe>
+        </div>
+    </div>
+
+</div>
+
+<div *ngIf="isStudentModalOpen" class="student-popup">
+    <div class="student-popup-content">
+      <span class="student-popup-close" (click)="closeStudentPopup()">&times;</span>
+  
+      <h3>Total Students: {{ totalStudents }}</h3>
+      
+      <ul>
+        <li *ngFor="let student of students" class="applicant-item">
+          <span class="applicant-name">{{ student.firstName }} {{ student.lastName }}</span>
+          <button class="applicant-details-btn" (click)="viewApplicantDetails(student.email)">Details</button>
+        </li>
+      </ul>
+    </div>
+  </div>
+  

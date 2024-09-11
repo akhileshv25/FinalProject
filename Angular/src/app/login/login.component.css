@@ -1,0 +1,211 @@
+.container {
+  display: flex;
+  max-width: 1000px;
+  height: 600px;
+  margin: 2rem auto;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+.form-title {
+  margin-bottom: 20px;
+  font-size: 24px;
+  font-weight: 600;
+  color: #a7382d; /* Title color */
+  text-align: center;
+}
+
+.image-side {
+  flex: 1.25;
+  background-color: #31918d;
+  background-image: url('/assets/job-portal-development.jpg'); /* Replace with your image path */
+  background-size: contain; /* Ensure the whole image is displayed */
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.form-side {
+  flex: 1;
+  display: flex;
+  justify-content: center; /* Centers the form horizontally */
+  align-items: center; /* Centers the form vertically */
+  padding: 3rem;
+}
+
+form {
+  width: 100%; /* Makes form width responsive */
+  max-width: 400px; /* Set a max-width to control the form size */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+    height: auto; /* Adjust height for mobile */
+  }
+
+  .image-side {
+    height: 300px; /* Adjust height for mobile */
+    background-size: cover; /* Adjust image display for mobile */
+  }
+}
+
+
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.form-group input:focus {
+  border-color: #a7382d;
+  outline: none;
+  box-shadow: 0 0 5px rgba(167, 56, 45, 0.5);
+}
+
+.alert {
+  color: #a94442;
+  background-color: #f2dede;
+  border: 1px solid #ebccd1;
+  border-radius: 4px;
+  padding: 0.75rem;
+  font-size: 0.875rem;
+}
+
+.btn {
+  display: inline-block;
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff;
+  background-color: #a7382d;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.btn:hover {
+  background-color: #862f23;
+}
+
+.btn:disabled {
+  background-color: #d6d6d6;
+  cursor: not-allowed;
+}
+
+
+.password-group {
+  position: relative;
+}
+
+.password-group {
+  position: relative;
+}
+
+.input-wrapper {
+  position: relative;
+}
+
+.eye-icon {
+  position: absolute;
+  top: 50%;
+  right: 15px; /* Adjust this value to position the icon more appropriately */
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #a7382d; /* Icon color */
+  font-size: 1.1rem; /* Adjust icon size */
+}
+
+.form-group input {
+  width: 100%;
+  padding-right: 2.5rem; /* Add padding to prevent text from overlapping with the icon */
+  padding-left: 0.75rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.form-group input:focus {
+  border-color: #a7382d;
+  outline: none;
+  box-shadow: 0 0 5px rgba(167, 56, 45, 0.5);
+}
+
+.eye-icon:hover {
+  color: #862f23;
+}
+.form-footer {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 20px;
+}
+
+.form-footer p {
+  margin: 0;
+}
+
+.form-footer a {
+  color: royalblue;
+  text-decoration: none;
+}
+
+.form-footer a:hover {
+  text-decoration: underline;
+}
+/* Modal styles */
+.modal {
+  display: block; /* Show the modal */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Black background with transparency */
+}
+
+.modal-content {
+  background-color: #fff;
+  margin: 15% auto; /* Center the modal */
+  padding: 20px;
+  border-radius: 8px;
+  width: 80%;
+  max-width: 400px;
+}
+
+.modal h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.modal .btn {
+  width: 100%;
+  margin-top: 10px;
+}
+
+.modal .btn-secondary {
+  background-color: #ccc;
+}

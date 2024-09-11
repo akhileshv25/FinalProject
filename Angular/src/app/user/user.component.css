@@ -1,0 +1,504 @@
+
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css'); /* Font Awesome CDN */
+@import url('https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css'); /* Bootstrap Icons CDN */
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css');
+
+.card-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); 
+  gap: 20px; 
+  padding: 20px;
+}
+
+.card {
+  background-color: #ffffff; 
+  border-radius: 16px; 
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1); 
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border: 1px solid #f0f0f0; 
+}
+
+.card:hover {
+  transform: translateY(-10px); 
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15); 
+}
+
+.card-header {
+  background-color: #f7f9fc; 
+  padding: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #e0e0e0; 
+}
+
+.card-header h3 {
+  margin: 0;
+  font-size: 1.25rem;
+  color: #333; /* Dark grey text */
+}
+
+.card-header .favorite-button {
+  font-size: 1.5rem;
+  color: #ff9800; /* Gold color for star */
+}
+
+.card-content {
+  padding: 20px;
+  flex: 1; /* Take remaining space */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.card-body {
+  margin-bottom: 20px; /* Space between body and footer */
+}
+
+.card-body p {
+  margin: 10px 0;
+  color: #666; /* Medium grey text */
+}
+
+.card-status-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid #e0e0e0; /* Subtle border for separation */
+  padding-top: 10px; /* Padding above the status */
+}
+
+.card-status {
+  padding: 6px 12px;
+  border-radius: 12px;
+  font-size: 0.875rem;
+  color: #ffffff;
+  background-color: #007bff; /* Default color */
+  text-transform: uppercase; /* Uppercase text */
+}
+
+.status-open {
+  background-color: #28a745; /* Green for open status */
+}
+
+.status-closed {
+  background-color: #dc3545; /* Red for closed status */
+}
+
+.apply-before {
+  font-size: 0.875rem;
+  color: #888; /* Grey text for secondary information */
+}
+
+.card-body button {
+  background-color: #a7382d;
+  border: none;
+  border-radius: 24px; /* Pill-shaped buttons */
+  color: #ffffff;
+  font-size: 0.875rem;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-body button:hover {
+  background-color: #862f23;
+  box-shadow: 0 4px 15px rgba(0, 91, 187, 0.3); /* Add shadow on hover */
+}
+
+@media (max-width: 768px) {
+  .card-container {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Adjust for smaller screens */
+  }
+}
+
+@media (max-width: 480px) {
+  .card-container {
+    grid-template-columns: 1fr; /* Single column layout on small screens */
+  }
+}
+
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  transition: opacity 0.3s ease;
+}
+
+.modal.show {
+  display: flex;
+  opacity: 1;
+}
+
+.modal-content {
+  background-color: #ffffff;
+  border-radius: 12px;
+  max-width: 900px; 
+  width: 90%; 
+  height: 65vh; 
+  padding: 40px; 
+  position: relative;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+  animation: fadeInScale 0.4s ease;
+  overflow-y: auto; 
+}
+
+
+@keyframes fadeInScale {
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.modal-content h3 {
+  margin-top: 0;
+  font-size: 28px; /* Increased font size */
+  font-weight: bold;
+  color: #333;
+}
+
+.modal-content p {
+  margin: 16px 0; /* Increased margin */
+  font-size: 18px; /* Increased font size */
+  color: #555;
+}
+
+.modal-content p strong {
+  color: #000;
+}
+
+.close {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  font-size: 28px; /* Increased font size */
+  font-weight: bold;
+  color: #aaa;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.close:hover {
+  color: #333;
+}
+
+.modal-content button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 12px 24px; /* Increased padding */
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 18px; /* Increased font size */
+  transition: background-color 0.3s ease;
+  margin-top: 20px;
+}
+
+.modal-content button:hover {
+  background-color: #0056b3;
+}
+
+.modal-content button + button {
+  margin-left: 10px;
+}
+
+.custom-toast {
+  background-color: #28a745;
+  color: white;
+  font-size: 18px;
+  border-radius: 5px;
+  padding: 15px;
+}
+
+.custom-toast .toast-title {
+  font-weight: bold;
+}
+
+
+.stages-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 40px; /* Increased margin to give more space at the top */
+  position: relative;
+}
+
+.stage {
+  display: flex;
+  align-items: center;
+  position: relative;
+  flex: 1;
+  text-align: center;
+}
+
+.circle {
+  width: 20px; /* Reduced size */
+  height: 20px; /* Reduced size */
+  border-radius: 50%;
+  background-color: white;
+  border: 3px solid #4CAF50; /* Reduced border width */
+  position: relative;
+  z-index: 2;
+  margin-right: -2px;
+  margin-left: 30px; /* Added margin-left to move the circle to the right */
+}
+
+.circle.completed  {
+  background-color: #4CAF50;
+}
+
+.circle.current {
+  background-color: orange;
+  border-color: #4CAF50;
+}
+.circle.stage-completed {
+  background-color: green;
+}
+
+.circle.stage-current {
+  background-color: orange;
+}
+
+.circle.stage-offer {
+  background-color: green; /* All circles green at final stage */
+}
+
+.line {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 2px; /* Reduced height */
+  width: calc(100% + 2px); /* Reduced width */
+  background-color: #4CAF50;
+  z-index: 1;
+  margin-left: 30px; /* Added margin-left to move the line to the right */
+}
+
+.stage-label {
+  margin-top: 10px; /* Adjust margin-top for space below the circle */
+  font-size: 16px; /* Font size for visibility */
+  color: #333;
+  position: absolute;
+  top: 100%; /* Positioned directly below the circle */
+  left: 30%;
+  transform: translateX(-50%);
+  text-align: center;
+}
+
+.search-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 20px 0; /* Adjust the vertical margin as needed */
+}
+
+.search-container input {
+  width: 100%;
+  max-width: 400px; /* Adjust as needed */
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  outline: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.search-container input:focus {
+  border-color: #862f23; /* Change to your preferred focus color */
+  box-shadow: 0 0 5px #b8443ac0; /* Optional: adds a shadow effect */
+}
+
+.search-container button {
+  background-color: #a7382d; /* Button background color */
+  color: #fff; /* Button text color */
+  border: none;
+  border-radius: 4px;
+  padding: 10px 20px;
+  margin-left: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.search-container button:hover,
+.search-container button:focus {
+  background-color: #862f23; /* Change to your preferred hover color */
+  transform: translateY(-2px); /* Optional: adds a subtle lift effect on hover */
+}
+
+.search-container button:active {
+  background-color: #a7382d; /* Change to your preferred active color */
+  transform: translateY(0); /* Reset the lift effect */
+}
+
+/* Filter Dropdown Styles */
+.search-container select {
+  margin-left: 10px;
+  padding: 10px 14px;
+  border-radius: 6px;
+  border: 2px solid #a7382d; /* Border color */
+  background-color: #fff; /* White background */
+  color: #a7382d; /* Text color */
+  font-size: 16px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow */
+  transition: all 0.3s ease; /* Smooth transition */
+}
+
+.search-container select:hover {
+  border-color: #862f23; /* Darker border color on hover */
+  box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.2); /* Enhanced shadow on hover */
+}
+
+.search-container select:focus {
+  outline: none;
+  border-color: #862f23; /* Darker border color on focus */
+  box-shadow: 0 0 8px rgba(134, 47, 35, 0.3); /* Glow effect on focus */
+}
+
+.search-container option {
+  padding: 12px 16px; 
+  background-color: #fff; 
+  color: #862f23; 
+  font-size: 16px;
+  border-bottom: 1px solid #eee;
+}
+
+.search-container option:hover {
+  background-color: #f5f5f5;
+  color: #a7382d;
+}
+
+
+
+
+.circle.stage-current-disabled {
+  background-color: red;
+  color: white;
+  cursor: not-allowed; 
+}
+
+/* Add Font Awesome */
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* user.component.css */
+
+
+
+.bi-star-fill {
+  color: gold;
+}
+
+.bi-star {
+  color: #ccc;
+}
+
+.bi-star:hover {
+  color: gold;
+}
+
+.favorite-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  outline: none;
+  padding: 0;
+  font-size: 24px; 
+}
+
+.favorite-button .liked {
+  color: gold;
+  display: inline-block;
+}
+
+.favorite-button .not-liked {
+  color: gold; 
+  display: inline-block;
+}
+
+.favorite-button:hover .liked, 
+.favorite-button:hover .not-liked {
+  color: rgb(247, 247, 50); 
+}
+/* Loading Spinner Styles */
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 80vh;
+  text-align: center;
+}
+
+.loading-spinner {
+  margin-bottom: 20px;
+}
+/* Apply button styling */
+.applyyy {
+  background-color: #28a745; /* Green background color */
+  color: white; /* White text color */
+  border: none;
+  padding: 10px 15px; /* Adjust padding for better click area */
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px; /* Adjust font size if needed */
+  transition: background-color 0.3s ease; /* Smooth transition for background color */
+}
+
+/* Apply button hover effect */
+.applyyy:hover {
+  background-color: #218838; /* Darker green for hover effect */
+}
+/* Applied status */
+.status-applied {
+  color: #007bff; /* Blue color for applied */
+  font-weight: bold;
+}
+
+/* Accepted status */
+.status-accepted {
+  color: #28a745; /* Green color for accepted */
+  font-weight: bold;
+}
+
+/* Rejected status */
+.status-rejected {
+  color: #dc3545; /* Red color for rejected */
+  font-weight: bold;
+}
+
+/* Pending status */
+.status-pending {
+  color: #ffc107; /* Yellow color for pending */
+  font-weight: bold;
+}
+
+/* Optional: Add styling for other elements like background color or borders if needed */
+.stage-blue
+{
+  color: #a7382d; /* Yellow color for pending */
+  font-weight: bold;
+}
+

@@ -1,0 +1,113 @@
+
+
+<div *ngIf="loading" class="loading-container">
+    <app-loading-spinner class="loading-spinner"></app-loading-spinner>
+    <p>Loading student data...</p>
+</div>
+<app-navbar *ngIf="!loading"></app-navbar>
+<div class="dashboard" *ngIf="!loading">
+    <!-- Student Profile Section -->
+    <div class="student-profile">
+        <div class="profile-container">
+            <div class="profile-image-container">
+                <img [src]="imageUrl" alt="Profile Image" class="profile-image" />
+            </div>
+            <div class="profile-info">
+                <h2>{{ student?.firstName }} {{ student?.lastName }}</h2>
+                <p><strong>Email:</strong> {{ student?.email }}</p>
+                <p><strong>Phone Number:</strong> {{ student?.phoneNumber }}</p>
+                <p><strong>Gender:</strong> {{ student?.gender }}</p>
+                <p><strong>Date of Birth:</strong> {{ student?.dob | date }}</p>
+                <p><strong>10th Mark:</strong> {{ student?.mark10th }}</p>
+                <p><strong>12th Mark:</strong> {{ student?.mark12th }}</p>
+                <p><strong>UG Mark:</strong> {{ student?.ugMark }}</p>
+                <p><strong>Backlogs:</strong> {{ student?.backlog }}</p>
+                <p><strong>Active Backlogs:</strong> {{ student?.activeBacklog }}</p>
+                <p><strong>Interested Course:</strong> {{ student?.interestedCourse }}</p>
+                <div class="profile-buttons">
+                    <button class="btn-primary" (click)="viewPdf()">View Resume</button>
+                    <button class="btn-secondary edit-button" (click)="openEditModal()">Edit Profile</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Application Status Section -->
+    <div class="application-status">
+        <div class="status-card applied">
+            <h4>Applied</h4>
+            <p>{{ appliedCount }}</p>
+        </div>
+        <div class="status-card accepted">
+            <h4>Accepted</h4>
+            <p>{{ acceptedCount }}</p>
+        </div>
+        <div class="status-card rejected">
+            <h4>Rejected</h4>
+            <p>{{ rejectedCount }}</p>
+        </div>
+        <div class="status-card pending">
+            <h4>Pending</h4>
+            <p>{{ pendingCount }}</p>
+        </div>
+    </div>
+</div>
+
+<!-- Student Edit Modal -->
+<div class="modal" *ngIf="isEditModalOpen">
+    <div class="modal-content">
+        <span class="modal-close" (click)="closeEditModal()">&times;</span>
+        <h3>Edit Student Details</h3>
+        <form (ngSubmit)="saveStudent()">
+            <label>First Name:
+                <input type="text" [(ngModel)]="student.firstName" name="firstName" required />
+            </label>
+            <label>Last Name:
+                <input type="text" [(ngModel)]="student.lastName" name="lastName" required />
+            </label>
+            <label>Email:
+                <input type="email" [(ngModel)]="student.email" name="email" required />
+            </label>
+            <label>Phone Number:
+                <input type="text" [(ngModel)]="student.phoneNumber" name="phoneNumber" />
+            </label>
+            <label>Gender:
+                <select [(ngModel)]="student.gender" name="gender" required>
+                    <option value="MALE">Male</option>
+                    <option value="FEMALE">Female</option>
+                    <option value="Other">Other</option>
+                </select>
+            </label>
+            <label>Date of Birth:
+                <input type="date" [(ngModel)]="student.dob" name="dob" />
+            </label>
+            <label>10th Mark:
+                <input type="number" [(ngModel)]="student.mark10th" name="mark10th" />
+            </label>
+            <label>12th Mark:
+                <input type="number" [(ngModel)]="student.mark12th" name="mark12th" />
+            </label>
+            <label>UG Mark:
+                <input type="number" [(ngModel)]="student.ugMark" name="ugMark" />
+            </label>
+            <label>Backlogs:
+                <input type="number" [(ngModel)]="student.backlog" name="backlog" />
+            </label>
+            <label>Active Backlogs:
+                <input type="number" [(ngModel)]="student.activeBacklog" name="activeBacklog" />
+            </label>
+            <label>Interested Course:
+                <input type="text" [(ngModel)]="student.interestedCourse" name="interestedCourse" />
+            </label>
+            <button class="btn-primary" type="submit">Save</button>
+        </form>
+    </div>
+</div>
+
+<!-- PDF Viewer Modal -->
+<div class="modal" *ngIf="isPopupOpen">
+    <div class="modal-content">
+        <span class="modal-close" (click)="closePopup()">&times;</span>
+        <iframe *ngIf="pdfUrl" [src]="pdfUrl" width="100%" height="500px"></iframe>
+    </div>
+</div>
